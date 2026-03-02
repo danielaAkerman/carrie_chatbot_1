@@ -13,7 +13,7 @@ async function sendMessage() {
     const message = input.value.trim()
     if (!message) return
 
-    chat.innerHTML += `<div><strong>Tú:</strong> ${message}</div>`
+    chat.innerHTML += `<div><strong>You:</strong> ${message}</div>`
     chat.scrollTo({
         top: chat.scrollHeight,
         behavior: "smooth"
