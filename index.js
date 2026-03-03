@@ -6,6 +6,28 @@ if (!sessionId) {
     localStorage.setItem("sessionId", sessionId)
 }
 
+function addInitialGreeting() {
+    const chat = document.getElementById("chat")
+
+    // Evita duplicar el saludo si ya hay mensajes
+    if (chat.innerHTML.trim() !== "") return
+
+    const greeting = `
+        <div>
+            <strong>Carrie:</strong> 
+            I couldn't help but wonder... 
+            what’s on your mind today?
+        </div>
+    `
+
+    chat.innerHTML += greeting
+
+    chat.scrollTo({
+        top: chat.scrollHeight,
+        behavior: "smooth"
+    })
+}
+
 async function sendMessage() {
     const input = document.getElementById("input")
     const chat = document.getElementById("chat")
@@ -46,3 +68,7 @@ window.handleSubmit = function (event) {
     event.preventDefault()
     sendMessage()
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    addInitialGreeting()
+})
