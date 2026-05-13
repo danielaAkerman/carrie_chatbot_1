@@ -1,26 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Experimental conversational AI exploring structured personality injection and identity persistence in LLM systems.">
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <meta
+      name="description"
+      content="Experimental conversational AI exploring structured personality injection and identity persistence in LLM systems."
+    />
+    <link rel="icon" href="favicon.png" type="image/png" />
     <title>Carrie Conversational AI</title>
 
-<link rel="stylesheet" href="./style.css">
-</head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h1>Carrie Bradshaw</h1>
-        <div id="chat"></div>
-        <form onsubmit="handleSubmit(event)" class="input-row">
-            <input id="input" placeholder="Type something..." />
-            <button type="submit">SEND</button>
-        </form>
+        <h1>Carrie Bradshaw<span class="status"> • Online</span></h1>
+      <div id="chat"></div>
+      <form onsubmit="handleSubmit(event)" class="input-row">
+        <input id="input" placeholder="Type something..." />
+        <button type="submit">SEND</button>
+      </form>
     </div>
 
     <script src="./index.js"></script>
-</body>
-
+  </body>
 </html>

@@ -1,74 +1,85 @@
-const WEBHOOK_URL = "https://danielaakerman.app.n8n.cloud/webhook/20407d9f-5c87-4c8d-bc0d-eb456235bd85"
+const WEBHOOK_URL =
+  "https://danielaakerman.app.n8n.cloud/webhook/20407d9f-5c87-4c8d-bc0d-eb456235bd85";
 
-let sessionId = localStorage.getItem("sessionId")
+let sessionId = localStorage.getItem("sessionId");
 if (!sessionId) {
-    sessionId = crypto.randomUUID()
-    localStorage.setItem("sessionId", sessionId)
+  sessionId = crypto.randomUUID();
+  localStorage.setItem("sessionId", sessionId);
 }
 
 function addInitialGreeting() {
-    const chat = document.getElementById("chat")
+  const chat = document.getElementById("chat");
 
-    // Evita duplicar el saludo si ya hay mensajes
-    if (chat.innerHTML.trim() !== "") return
+  // Evita duplicar el saludo si ya hay mensajes
+  if (chat.innerHTML.trim() !== "") return;
 
-    const greeting = `
+  const greeting = `
         <div>
             <strong>Carrie:</strong> 
             I couldn't help but wonder... 
             what’s on your mind today?
         </div>
-    `
+    `;
 
-    chat.innerHTML += greeting
+  chat.innerHTML += greeting;
 
-    chat.scrollTo({
-        top: chat.scrollHeight,
-        behavior: "smooth"
-    })
+  chat.scrollTo({
+    top: chat.scrollHeight,
+    behavior: "smooth",
+  });
 }
 
 async function sendMessage() {
-    const input = document.getElementById("input")
-    const chat = document.getElementById("chat")
+  const input = document.getElementById("input");
+  const chat = document.getElementById("chat");
 
-    const message = input.value.trim()
-    if (!message) return
+  const message = input.value.trim();
+  if (!message) return;
 
-    chat.innerHTML += `<div><strong>You:</strong> ${message}</div>`
-    chat.scrollTo({
-        top: chat.scrollHeight,
-        behavior: "smooth"
-    });
-    input.value = ""
+  chat.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+  chat.scrollTo({
+    top: chat.scrollHeight,
+    behavior: "smooth",
+  });
+  input.value = "";
 
-    const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            chatInput: message,
-            sessionId: sessionId
-        })
-    })
+  // "Carrie is typing" indicator
+  setTimeout(() => {
+    const status = document.querySelector(".status");
+    status.textContent = " • Typing...";
 
-    const data = await response.json()
-    //   console.log("RESPONSE:", data)
+  }, 1000);
+  // Fin "Carrie is typing" indicator
 
-    //   chat.innerHTML += `<div><strong>Carrie:</strong> ${data.reply}</div>`
-    chat.innerHTML += `<div><strong>Carrie:</strong> ${data[0].output}</div>`
-    // chat.scrollTop = chat.scrollHeight;
+  const response = await fetch(WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chatInput: message,
+      sessionId: sessionId,
+    }),
+  });
 
-    chat.scrollTo({
-        top: chat.scrollHeight,
-        behavior: "smooth"
-    });
+  const data = await response.json();
+
+  // Borra el indicador de "Carrie is typing" antes de mostrar la respuesta real
+  const status = document.querySelector(".status");
+  status.textContent = " • Online";
+  // fin de  Borra el indicador de "Carrie is typing"
+
+  chat.innerHTML += `<div><strong>Carrie:</strong> ${data[0].output}</div>`;
+
+  chat.scrollTo({
+    top: chat.scrollHeight,
+    behavior: "smooth",
+  });
 }
 
 window.handleSubmit = function (event) {
-    event.preventDefault()
-    sendMessage()
-}
+  event.preventDefault();
+  sendMessage();
+};
 
 window.addEventListener("DOMContentLoaded", () => {
-    addInitialGreeting()
-})
+  addInitialGreeting();
+});
