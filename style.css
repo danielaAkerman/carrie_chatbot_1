@@ -103,6 +103,12 @@ h1::after {
   gap: 1rem;
   padding: 1.5rem 0;
   scrollbar-width: none;
+
+  font-family: 'Playfair Display', Georgia, serif;
+  /* font-style: italic; */
+  /* font-size: 0.82rem; */
+  color: hsl(0, 0%, 40%);
+  /* letter-spacing: 1em; */
 }
 
 #chat::-webkit-scrollbar {
